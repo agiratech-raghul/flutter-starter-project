@@ -1,4 +1,4 @@
-import 'package:another_flushbar/flushbar.dart';
+// import 'package:another_flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 
 class AppSnackBar {
@@ -14,19 +14,34 @@ class AppSnackBar {
       this.isPositive = false});
 
   void showAppSnackBar(BuildContext context) {
-    Flushbar(
-      backgroundColor: isPositive ? Colors.green : Colors.red,
-      flushbarPosition: FlushbarPosition.BOTTOM,
-      messageText: Text(
-        message!.length < 200
-            ? message.toString()
-            : message.toString().substring(0, 200),
-        textAlign: TextAlign.left,
-        softWrap: true,
-        style: const TextStyle(color: Colors.white),
-      ),
-      isDismissible: actionText == null,
+
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      content:
+     Text(
+            message!.length < 200
+                ? message.toString()
+                : message.toString().substring(0, 200),
+            textAlign: TextAlign.left,
+            softWrap: true,
+            style: const TextStyle(color: Colors.white),
+          ),
       duration: const Duration(seconds: 5),
-    ).show(context);
+      backgroundColor: isPositive ? Colors.green : Colors.red,
+    ));
+
+  //   Flushbar(
+  //     backgroundColor: isPositive ? Colors.green : Colors.red,
+  //     flushbarPosition: FlushbarPosition.BOTTOM,
+  //     messageText: Text(
+  //       message!.length < 200
+  //           ? message.toString()
+  //           : message.toString().substring(0, 200),
+  //       textAlign: TextAlign.left,
+  //       softWrap: true,
+  //       style: const TextStyle(color: Colors.white),
+  //     ),
+  //     isDismissible: actionText == null,
+  //     duration: const Duration(seconds: 5),
+  //   ).show(context);
   }
 }
