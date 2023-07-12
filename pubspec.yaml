@@ -27,6 +27,12 @@ dependencies:
   #Widgets
   image_picker: ^0.8.7+4
 
+  #firebase
+  firebase_core:
+  firebase_auth:
+  firebase_ui_auth:
+  cloud_firestore:
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -36,4 +42,22 @@ flutter:
   uses-material-design: true
   assets:
     - assets/
+    - assets/images/
     - assets/json/language/
+
+  fonts:
+    - family: EBGaramond-Regular
+      fonts:
+        - asset: fonts/EBGaramond-Regular.ttf
+
+    - family: EBGaramond-Bold
+      fonts:
+        - asset: fonts/EBGaramond-Bold.ttf
+
+    - family: EBGaramond-Medium
+      fonts:
+        - asset: fonts/EBGaramond-Medium.ttf
+
+    - family: Fasthand-Regular
+      fonts:
+        - asset: fonts/Fasthand-Regular.ttf

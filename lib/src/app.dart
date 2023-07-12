@@ -49,7 +49,8 @@ class _AppState extends ConsumerState<App> {
         highlightColor: Colors.transparent,
         hoverColor: Colors.transparent,
       ),
-      builder: (_, child, )=>NetWorkCheck(child: child?? const SizedBox()),
+      builder: (_, child,) =>
+          NetWorkCheck(child: child ?? const SizedBox()),
       onGenerateRoute: routes.onGenerateRoute,
     );
   }
@@ -63,7 +64,7 @@ class NetWorkCheck extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     ref.listen<AsyncValue<ConnectionStatus>>(
       connectionStreamProvider,
-          (prevState, newState) {
+      (prevState, newState) {
         newState.whenOrNull(
           data: (status) {
             String message = status == ConnectionStatus.disconnected
