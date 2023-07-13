@@ -7,7 +7,7 @@ import 'fonts.dart';
 class TextStyles{
   static  TextStyle titleTextStyle = TextStyle(
       fontSize: UIDimens.size40,
-      color: CommonColor.primaryTitleColor,
+      color: CommonColor.logoCommonDarkColor,
       fontFamily: Fonts.titleRegular,
       fontWeight: FontWeight.w700);
   static  TextStyle greyTextStyle = TextStyle(
@@ -20,4 +20,8 @@ class TextStyles{
       color: CommonColor.whiteColor,
       // fontFamily: Fonts.regular
   );
+  static  TextStyle blueTextStyle = TextStyle(
+      fontSize: UIDimens.size16,
+      color: CommonColor.primaryTitleColor,
+      fontWeight: FontWeight.w700);
 }

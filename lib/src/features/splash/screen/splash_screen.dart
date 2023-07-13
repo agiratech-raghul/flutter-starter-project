@@ -1,11 +1,8 @@
-import 'package:flutter_starter_project/src/features/login_screen/login_screen.dart';
 import 'package:flutter_starter_project/src/routing/route_constants.dart';
-import 'package:flutter_starter_project/src/ui_utils/app_snack_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_starter_project/src/utils/src/colors/common_colors.dart';
 import 'package:flutter_starter_project/src/ui_utils/text_styles.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import '../../../services/connectivity_service_provider.dart/connectivity_service_provider.dart';
 import '../../../utils/utils.dart';
 import '../../../constants/string_constants.dart';
 

@@ -6,5 +6,7 @@
     "enter_your_password" : "Enter Your Password",
     "re_enter_your_password": "Re Enter Your Password",
     "forgot_password": "Forgot Password",
-    "sign_in" : "Sign In"
+    "sign_in" : "Sign In",
+    "not_a_member": "Not a Member",
+    "register": "Register"
 }

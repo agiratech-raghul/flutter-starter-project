@@ -70,7 +70,7 @@ class NetWorkCheck extends HookConsumerWidget {
             String message = status == ConnectionStatus.disconnected
                 ? 'Your Disconnected'
                 : 'Your Back Online';
-            AppSnackBar(isPositive: true, message: message)
+         return  AppSnackBar(isPositive: true, message: message)
                 .showAppSnackBar(context);
           },
         );

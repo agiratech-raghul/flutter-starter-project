@@ -9,4 +9,6 @@ class StringConstants{
   static const String reEnterYourPassword = 're_enter_your_password';
   static const String forgotPassword = 'forgot_password';
   static const String signIn = 'sign_in';
+  static const String notAMember = 'not_a_member';
+  static const String register = 'register';
 }

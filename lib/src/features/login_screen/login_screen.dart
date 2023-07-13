@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_starter_project/src/common_widgets/src/buttons/outline_button.dart';
-import 'package:flutter_starter_project/src/common_widgets/src/buttons/primary_button.dart';
 import 'package:flutter_starter_project/src/common_widgets/src/text_field/common_text_field.dart';
 import 'package:flutter_starter_project/src/constants/string_constants.dart';
 import 'package:flutter_starter_project/src/utils/src/colors/common_colors.dart';
@@ -20,36 +19,60 @@ class LoginScreen extends StatelessWidget {
         bottom: false,
         child: SingleChildScrollView(
           child: Center(
-            child: Column(
-              children: [
-                Padding(
-                  padding: EdgeInsets.symmetric(vertical: Utils.getScreenHeight(context, 40)),
-                  child: SizedBox(
-                    height: MediaQuery.of(context).size.height / 4,
+            child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: Utils.getScreenWidth(context, 18),
+              vertical: Utils.getScreenWidth(context, 15)),
+              child: Column(
+                children: [
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height / 4.5,
                     child: const Image(
-                      image: AssetImage(AppAssets.sampleLogo),
+                      image: AssetImage(AppAssets.anotherLogo),
                     ),
                   ),
-                ),
-                Text(StringConstants.appName.tr(context),style: TextStyles.titleTextStyle),
-                const HeightSpaceBox(size: 30),
-                CommonTextField(hintText: StringConstants.enterYourEmail.tr(context)),
-                CommonTextField(hintText: StringConstants.enterYourPassword.tr(context),),
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: Utils.getScreenWidth(context, 18),
-                      vertical: Utils.getScreenHeight(context, 5)
+                  Text(StringConstants.appName.tr(context),style: TextStyles.titleTextStyle),
+                  const HeightSpaceBox(size: 30),
+                  CommonTextField(hintText: StringConstants.enterYourEmail.tr(context)),
+                  CommonTextField(hintText: StringConstants.enterYourPassword.tr(context),),
+                  Padding(
+                    padding: EdgeInsets.symmetric(
+                        vertical: Utils.getScreenHeight(context, 5)
+                    ),
+                    child: Row(mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        Text("${StringConstants.forgotPassword.tr(context)}?",
+                        style: TextStyles.greyTextStyle),
+                      ],
+                    ),
                   ),
-                  child: Row(mainAxisAlignment: MainAxisAlignment.end,
+                  CommonOutlineButton(
+                      text: StringConstants.signIn.tr(context),
+                      textStyle: TextStyles.greyTextStyle,
+                      backgroundColor: CommonColor.logoCommonLightColor,),
+                  const HeightSpaceBox(size: 30),
+                  Row(
                     children: [
-                      Text("${StringConstants.forgotPassword.tr(context)}?",
-                      style: TextStyles.greyTextStyle),
+                      Expanded(child: Divider(color: CommonColor.darkTextGrey)),
+                      Text("Or Continue With",style: TextStyles.greyTextStyle,),
+                      Expanded(child: Divider(color: CommonColor.darkTextGrey)),
                     ],
                   ),
-                ),
-                CommonOutlineButton(
-                    text: StringConstants.signIn.tr(context),
-                    backgroundColor: CommonColor.blackColor,),
-              ],
+                  const HeightSpaceBox(size: 40),
+                  SizedBox(
+                    height: Utils.getScreenHeight(context, 50),
+                    child: const Image(image: AssetImage(AppAssets.googleLogo),),
+                  ),
+                  const HeightSpaceBox(size: 40),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text("${StringConstants.notAMember.tr(context)}?",style: TextStyles.greyTextStyle),
+                      const SizedBox(width: 5),
+                      Text(StringConstants.register.tr(context),style: TextStyles.blueTextStyle.copyWith(color: CommonColor.logoCommonDarkColor)),
+                    ],
+                  ),
+                ],
+              ),
             ),
           ),
         ),
