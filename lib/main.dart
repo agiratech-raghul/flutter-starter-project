@@ -1,3 +1,4 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -11,7 +12,9 @@ Future<void> main() async {
   runZonedGuarded<Future<void>>(() async {
     WidgetsFlutterBinding.ensureInitialized();
     await container.read(servicesInitializerProvider).init();
-    runApp(UncontrolledProviderScope(container: container, child: const App()));
+    await Firebase.initializeApp();
+    runApp(UncontrolledProviderScope(container: container,
+        child: const App()));
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,

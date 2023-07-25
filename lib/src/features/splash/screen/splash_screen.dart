@@ -22,6 +22,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
   void initState() {
     _timer();
     super.initState();
+
   }
 
   @override
