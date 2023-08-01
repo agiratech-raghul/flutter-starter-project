@@ -1,17 +1,16 @@
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_starter_project/src/common_widgets/src/buttons/outline_button.dart';
 import 'package:flutter_starter_project/src/common_widgets/src/text_field/common_text_field.dart';
 import 'package:flutter_starter_project/src/constants/string_constants.dart';
-import 'package:flutter_starter_project/src/features/home_screen/home.dart';
+import 'package:flutter_starter_project/src/controllers/sign_in_controller.dart';
+import 'package:flutter_starter_project/src/features/sign_up_screen/sign_up_controller.dart';
+import 'package:flutter_starter_project/src/routing/route_constants.dart';
+import 'package:flutter_starter_project/src/ui_utils/app_snack_bar.dart';
 import 'package:flutter_starter_project/src/utils/src/colors/common_colors.dart';
 import 'package:flutter_starter_project/src/ui_utils/sized_box.dart';
 import 'package:flutter_starter_project/src/ui_utils/text_styles.dart';
 import 'package:flutter_starter_project/src/ui_utils/ui_assets.dart';
 import 'package:flutter_starter_project/src/utils/utils.dart';
-
-import 'auth.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -22,43 +21,35 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
 
-  String errorMessage = '';
+  @override
+  void initState() {
+
+    _signInController = SignInController();
+    _signInController.init(context);
+    _signInController.addListener(() {
+      setState(() {});
+    });
+
+    _signUpController = SignUpController();
+    _signUpController.init(context);
+    _signUpController.addListener(() {
+      setState(() {});
+    });
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _signInController.dispose();
+    _signUpController.dispose();
+    super.dispose();
+  }
+
   bool isLogin = false;
   bool isSignUp = false;
-  final TextEditingController _emailController = TextEditingController();
-  final TextEditingController _passwordController = TextEditingController();
 
-  handleSubmit()async {
-    final email = _emailController.text;
-    final password = _passwordController.text;
-
-    await Auth().signInEmailAndPassword(email: email, password: password);
-  }
-
-  Future<void> signInWithEmailAndPassword() async {
-    try {
-      await Auth().signInEmailAndPassword(email: _emailController.text, password: _passwordController.text);
-    } on FirebaseAuthException catch (e) {
-      setState(() {
-        errorMessage = e.message!;
-      });
-    }
-  }
-
-  Future<void> createUserEmailAndPassword() async {
-    try {
-      await Auth().createUserWithEmailAndPassword(email: _emailController.text, password: _passwordController.text);
-    } on FirebaseAuthException catch (e) {
-      setState(() {
-        errorMessage = e.message!;
-      });
-    }
-  }
-  void _mouse(PointerEvent details) {
-    setState(() {
-      isSignUp=!isSignUp;
-    });
-  }
+  late SignInController _signInController;
+  late SignUpController _signUpController;
 
 
   @override
@@ -88,11 +79,11 @@ class _LoginScreenState extends State<LoginScreen> {
                             Text(StringConstants.appName.tr(context),style: TextStyles.titleTextStyle),
                             const HeightSpaceBox(size: 30),
                             CommonTextField(
-                                controller: _emailController,
+                                controller:isSignUp? _signUpController.emailController:_signInController.emailController,
                                 hintText:
                                 StringConstants.enterYourEmail.tr(context)),
                             CommonTextField(
-                              controller: _passwordController,
+                              controller:isSignUp?_signUpController.passwordController: _signInController.passwordController,
                               hintText:
                               StringConstants.enterYourPassword.tr(context),
                             ),
@@ -115,10 +106,24 @@ class _LoginScreenState extends State<LoginScreen> {
                                   : StringConstants.signIn.tr(context),
                               textStyle: TextStyles.greyTextStyle,
                               backgroundColor: CommonColor.logoCommonLightColor,
-                              onPressed: (){
-                                isSignUp?
-                                createUserEmailAndPassword():
-                                signInWithEmailAndPassword();
+                              onPressed: () async {
+                                if(!isSignUp) {
+                                  bool valid = await _signInController.login();
+                                if(valid){
+                                  Navigator.pushNamed(context, RouteConstants.homeScreen);
+                                } else {
+                                  AppSnackBar(message: _signInController.errorModel?.error?.message
+                                  ).showAppSnackBar(context);
+                                  }
+                                } else {
+                                  bool valid = await _signUpController.signUp();
+                                  if(valid){
+                                    Navigator.pushNamed(context, RouteConstants.loginScreen);
+                                  } else {
+                                    AppSnackBar(message: _signUpController.errorModel?.error?.message
+                                    ).showAppSnackBar(context);
+                                  }
+                                }
                               },
                             ),
                             const HeightSpaceBox(size: 30),

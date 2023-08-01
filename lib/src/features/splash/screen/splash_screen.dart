@@ -1,5 +1,6 @@
 import 'package:flutter_starter_project/src/routing/route_constants.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_starter_project/src/services/local_storage/key_value_storage_service.dart';
 import 'package:flutter_starter_project/src/utils/src/colors/common_colors.dart';
 import 'package:flutter_starter_project/src/ui_utils/text_styles.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -17,6 +18,9 @@ class SplashScreen extends StatefulHookConsumerWidget {
 }
 
 class _SplashScreenState extends ConsumerState<SplashScreen> {
+
+  final KeyValueStorageService _keyValueStorageService =
+  KeyValueStorageService();
 
   @override
   void initState() {
@@ -41,8 +45,14 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
   }
 
   Future<void> _nextPage() async {
-    Navigator.of(context).pushNamedAndRemoveUntil(RouteConstants.loginScreen,
-            (route) => false);
+    if(_keyValueStorageService.getAuthState()){
+      Navigator.of(context).pushNamedAndRemoveUntil(RouteConstants.homeScreen,
+              (route) => false);
+    } else {
+      Navigator.of(context).pushNamedAndRemoveUntil(RouteConstants.loginScreen,
+              (route) => false);
+    }
+
   }
   
 }

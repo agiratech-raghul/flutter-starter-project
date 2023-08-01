@@ -22,7 +22,7 @@ class _CommonTextFieldState extends State<CommonTextField> {
       padding: const EdgeInsets.symmetric(vertical: 5),
       child: SizedBox(
         height: 50,
-        child: TextField(
+        child: TextFormField(
           controller: widget.controller,
           style: TextStyle(color: Colors.grey.shade500),
           decoration: InputDecoration(

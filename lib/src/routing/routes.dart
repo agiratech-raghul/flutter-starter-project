@@ -1,3 +1,4 @@
+import 'package:flutter_starter_project/src/features/home_screen/home.dart';
 import 'package:flutter_starter_project/src/features/login_screen/login_screen.dart';
 
 import '../../src/routing/route_constants.dart';
@@ -18,6 +19,10 @@ class RouteManager {
         return MaterialPageRoute(
             settings: const RouteSettings(name: RouteConstants.loginScreen),
             builder: (context) => const LoginScreen());
+      case RouteConstants.homeScreen:
+        return MaterialPageRoute(
+            settings: const RouteSettings(name: RouteConstants.homeScreen),
+            builder: (context) => const HomeScreen());
       default:
         return MaterialPageRoute(
             settings: const RouteSettings(name: RouteConstants.splashScreen),

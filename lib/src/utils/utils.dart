@@ -9,6 +9,10 @@ export 'src/typedefs.dart';
 export 'src/helpers/image_utils.dart';
 
 class Utils {
+
+  static String success = "success";
+  static String isRegistered = "true";
+
   static double getScreenWidth(BuildContext context, double y) {
     return context.screenWidth * (y / 360.0);
   }

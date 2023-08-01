@@ -160,9 +160,9 @@ class HttpService {
   }
 }
 
-final KeyValueStorageService _localStor = KeyValueStorageService();
+final KeyValueStorageService _localStore = KeyValueStorageService();
 Future<Map<String, String>> addAuthenticationHeader() async {
-  String token = await _localStor.getAuthToken();
+  String token = await _localStore.getAuthToken();
   debugPrint(token);
 
   return {
@@ -171,7 +171,7 @@ Future<Map<String, String>> addAuthenticationHeader() async {
   };
 }
 
-Future<Map<String, String>> authenticationHeaderWithoutcontent() async {
-  String token = await _localStor.getAuthToken();
+Future<Map<String, String>> authenticationHeaderWithoutContent() async {
+  String token = await _localStore.getAuthToken();
   return {'Authorization': 'Bearer $token'};
 }

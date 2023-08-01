@@ -8,15 +8,18 @@ class ApiEndpoint {
   const ApiEndpoint._();
 
   static const String baseUrl = stagingUrl;
-  static const String stagingUrl = 'https:';
+  static const String stagingUrl = 'https://identitytoolkit.googleapis.com/v1';
   static const String prodUrl = "https:";
   static const String productionUrl = '';
+  static const String APIkey = 'AIzaSyBrLKqUCaeemSAotNHB82a6IfaQ_T4DrUM';
 
   static String auth(AuthEndpoint endpoint) {
-    var path = '$baseUrl/auth';
+    var path = baseUrl;
     switch (endpoint) {
       case AuthEndpoint.LOGIN:
-        return '$path/login';
+        return '$path/accounts:signInWithPassword?key=$APIkey';
+      case AuthEndpoint.SIGN_UP:
+        return '$path/accounts:signUp?key=$APIkey';
       case AuthEndpoint.FORGOT_PASSWORD:
         return '$path/otp';
       case AuthEndpoint.RESET_PASSWORD:
@@ -34,6 +37,8 @@ class ApiEndpoint {
 
 enum AuthEndpoint {
   LOGIN,
+
+  SIGN_UP,
 
   FORGOT_PASSWORD,
 
