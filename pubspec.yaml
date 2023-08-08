@@ -33,6 +33,7 @@ dependencies:
   firebase_ui_auth:
   cloud_firestore:
   dartz:
+  images_picker: 
 
 dev_dependencies:
   flutter_test:

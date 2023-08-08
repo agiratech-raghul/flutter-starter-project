@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_starter_project/src/model_classes/error_model/sign_in_error_response.dart';
 import 'package:flutter_starter_project/src/model_classes/sign_in_model/sign_in_response.dart';
 import 'package:flutter_starter_project/src/model_classes/sign_up_model/sign_up_response.dart';
+import 'package:flutter_starter_project/src/model_classes/user_detail_model/user_detail_response.dart';
 import 'package:flutter_starter_project/src/services/networking/api_endpoint.dart';
 import 'package:flutter_starter_project/src/services/networking/api_service.dart';
 import 'package:flutter_starter_project/src/services/networking/webservice_constants.dart';
@@ -47,6 +48,27 @@ class AuthRepository {
           debugPrint("response mad${response[WebserviceConstants.statusCode]}");
           if (code == 200) {
             return Left(SignUpResponse.fromJson(response));
+          } else {
+            SignInErrorResponse errorModel = SignInErrorResponse.fromJson(
+                response);
+            return Right(errorModel);
+          }
+        });
+  }
+
+  Future<Either<UserDetailResponse, SignInErrorResponse>> sendUserData(
+      {required JSON data,
+        required context}) async {
+    return await _apiService.setData<
+        Either<UserDetailResponse, SignInErrorResponse>>(
+        endpoint: ApiEndpoint.auth(AuthEndpoint.USER_DETAIL),
+        data: data,
+        // requiresAuthToken: false,
+        converter: (response) {
+          final code=response[WebserviceConstants.statusCode];
+          debugPrint("response mad${response[WebserviceConstants.statusCode]}");
+          if (code == 200) {
+            return Left(UserDetailResponse.fromJson(response));
           } else {
             SignInErrorResponse errorModel = SignInErrorResponse.fromJson(
                 response);
