@@ -13,17 +13,12 @@ class NavDrawer extends StatelessWidget {
         children: <Widget>[
            DrawerHeader(
             decoration: BoxDecoration(
-                color:CommonColor.logoCommonDarkColor,
+                color:CommonColor.primaryLightColor,
                ),
             child: Text(
-              'Side menu',
+              'ArtFlu',
               style: TextStyle(color: Colors.white, fontSize: 25),
             ),
-          ),
-          ListTile(
-            leading: const Icon(Icons.home),
-            title: const Text('Home'),
-            onTap: (){},
           ),
           ListTile(
             leading: const Icon(Icons.exit_to_app),

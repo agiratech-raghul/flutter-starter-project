@@ -59,7 +59,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    print(isChoose);
     return Scaffold(
       backgroundColor: CommonColor.logoCommonLightColor,
       drawer: NavDrawer(
@@ -194,6 +193,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                           }
                           setState(() {
                             isChoose = false;
+                            _homeController.savedImages();
                           });
                         },
                         child: Padding(
