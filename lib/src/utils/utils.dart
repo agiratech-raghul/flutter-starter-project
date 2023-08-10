@@ -7,8 +7,13 @@ export 'src/extensions/string_extentions.dart';
 export 'src/colors/app_colors.dart';
 export 'src/typedefs.dart';
 export 'src/helpers/image_utils.dart';
-
+enum EditType {
+s,
+f;
+}
 class Utils {
+
+
 
   static String success = "success";
   static String isRegistered = "true";

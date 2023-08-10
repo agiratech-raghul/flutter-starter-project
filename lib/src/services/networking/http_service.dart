@@ -62,6 +62,8 @@ class HttpService {
   Future<JSON> multipartRequest(
       {required String endpoint,
       dynamic body,
+        Map<String,String>? fields,
+        dynamic body1,
       final dynamic Function(bool)? onError}) async {
     final bool isNetworkAvailable = await NetworkCheck().check();
     if (isNetworkAvailable) {
@@ -69,14 +71,25 @@ class HttpService {
         debugPrint("endpoint " + Uri.parse(endpoint).toString());
         debugPrint("filePath " + body.toString());
         var request = http.MultipartRequest("POST", Uri.parse(endpoint));
-        request.headers.addAll(await addAuthenticationHeader());
+        request.headers.addAll(await picArtHeader());
+
         request.fields["upload_type"] = "attachement";
         if (body.isNotEmpty) {
           http.MultipartFile frontFile = await http.MultipartFile.fromPath(
-              'file', body,
+              'image', body,
               contentType:
                   MediaType('image', ImageUtils.getImageExtension(body)));
+          if(body1 != null)
+          {
+            http.MultipartFile anotherFile = await http.MultipartFile.fromPath(
+                'reference_image', body1,
+                contentType:
+                MediaType('reference_image', ImageUtils.getImageExtension(body1)));
+            request.files.add(anotherFile);
+          }
           request.files.add(frontFile);
+
+          request.fields.addAll(fields!);
         }
         debugPrint("request " + request.toString());
         http.StreamedResponse response = await request.send();
@@ -168,6 +181,12 @@ Future<Map<String, String>> addAuthenticationHeader() async {
   return {
     'Authorization': 'Bearer $token',
     'Content-Type': 'application/json',
+  };
+}
+Future<Map<String, String>> picArtHeader() async {
+  return {
+    'X-Picsart-API-Key': 'iC9IWBCDtpsjdXd20ZWRdfAhxgWKZ9lA',
+    'accept': 'application/json'
   };
 }
 

@@ -5,6 +5,8 @@ class KeyValueStorageService {
 
   static const _authStateKey = 'authStateKey';
 
+  static const _authUserId = 'authUserId';
+
   static const _authPasswordKey = 'authPasswordKey';
 
 
@@ -24,6 +26,14 @@ class KeyValueStorageService {
     return _keyValueStorage.getCommon<bool>(_authStateKey) ?? false;
   }
 
+  void setAuthUserId() {
+    _keyValueStorage.setCommon<bool>(_authUserId, true);
+  }
+
+  bool getAuthUserId() {
+    return _keyValueStorage.getCommon<bool>(_authUserId) ?? false;
+  }
+
   void setMobileNumber(String mobileNumber){
     _keyValueStorage.setCommon<String>(_mobileNumber,mobileNumber);
   }
@@ -33,6 +43,14 @@ class KeyValueStorageService {
   }
   Future<String> getAuthToken() async {
     return await _keyValueStorage.getEncrypted(_authTokenKey) ?? '';
+  }
+
+  Future<String> getAuthID() async {
+    return await _keyValueStorage.getEncrypted(_authUserId) ?? '';
+  }
+
+  void setAuthID(String token) {
+    _keyValueStorage.setEncrypted(_authUserId, token);
   }
 
   void setAuthPassword(String password) {

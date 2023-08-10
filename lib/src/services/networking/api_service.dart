@@ -1,4 +1,6 @@
 import 'dart:convert';
+import 'package:dartz/dartz.dart';
+
 import '../networking/http_service.dart';
 import '../networking/api_interface.dart';
 
@@ -55,12 +57,17 @@ class ApiService implements ApiInterface {
   Future<T> mulitPart<T>({
     required String endpoint,
     dynamic data,
+    dynamic data1,
+    Map<String,String>? field,
     required T Function(JSON response) converter,
     final dynamic Function(bool)? onError,
   }) async {
     final dataMap = await _httpService.multipartRequest(
       endpoint: endpoint,
       body: data,
+      body1: data1,
+      fields: field
+
     );
     debugPrint(dataMap.toString());
     return converter(dataMap);

@@ -15,7 +15,9 @@ class ApiEndpoint {
   static bool isAndroid = Platform.isAndroid;
 
   static const String baseUrl = stagingUrl;
+  static const String picsArtUrl = 'https://api.picsart.io/tools/1.0';
   static const String stagingUrl = 'https://identitytoolkit.googleapis.com/v1';
+  static const String firebaseSaveUrl = "https://moonlight-24-default-rtdb.firebaseio.com/";
   static const String prodUrl = "https:";
   static const String productionUrl = '';
   static const String androidAPIkey = 'AIzaSyBrLKqUCaeemSAotNHB82a6IfaQ_T4DrUM';
@@ -44,6 +46,17 @@ class ApiEndpoint {
     }
   }
 
+   static String picsArt(PicsArtEndpoint endpoint) {
+     switch (endpoint) {
+       case PicsArtEndpoint.BG_REMOVE:
+         return '$picsArtUrl/removebg';
+       case PicsArtEndpoint.TEXTURE:
+         return '$picsArtUrl/background/texture';
+       case PicsArtEndpoint.STYLE_TRANSFER:
+         return '$picsArtUrl/styletransfer';
+     }
+   }
+
 }
 
 enum AuthEndpoint {
@@ -62,4 +75,12 @@ enum AuthEndpoint {
   VERIFY_OTP,
 
   RESEND_OTP
+}
+
+enum PicsArtEndpoint {
+  BG_REMOVE,
+
+  TEXTURE,
+
+  STYLE_TRANSFER
 }

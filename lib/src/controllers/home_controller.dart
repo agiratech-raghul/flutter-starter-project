@@ -1,60 +1,136 @@
+import 'dart:convert';
 
+import 'package:dartz/dartz.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_starter_project/src/model_classes/edit_image_model/remove_background_image.dart';
+import 'package:flutter_starter_project/src/model_classes/edit_image_model/remove_bg_model/remove_bg_response.dart';
+import 'package:flutter_starter_project/src/model_classes/edit_image_model/saved_images.dart';
+import 'package:flutter_starter_project/src/model_classes/edit_image_model/style_transfer.dart';
+import 'package:flutter_starter_project/src/model_classes/edit_image_model/texture_fields.dart';
 import 'package:flutter_starter_project/src/model_classes/error_model/sign_in_error_response.dart';
 import 'package:flutter_starter_project/src/model_classes/user_detail_model/user_detail_model.dart';
 import 'package:flutter_starter_project/src/model_classes/user_detail_model/user_detail_response.dart';
 import 'package:flutter_starter_project/src/repository/auth_repository.dart';
+import 'package:flutter_starter_project/src/repository/pics_edit_repository.dart';
 import 'package:flutter_starter_project/src/services/local_storage/key_value_storage_service.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-final homeController=ChangeNotifierProvider((ref) => HomeController());
+import 'package:http/http.dart' as http;
 
-class HomeController with ChangeNotifier{
+final homeController = ChangeNotifierProvider((ref) => HomeController());
+
+class HomeController with ChangeNotifier {
 
   final AuthRepository _authRepository = AuthRepository();
+  final PicsEditRepository _picsEditRepository = PicsEditRepository();
 
-  final _keyValueStorageService=KeyValueStorageService();
+  SavedImagesResponse? savedImagesResponse;
+  List<SavedImagesResponse> images = [];
+
+  final _keyValueStorageService = KeyValueStorageService();
+
   KeyValueStorageService? get keyValueStorageService => _keyValueStorageService;
 
   SignInErrorResponse? _errorModel;
+
   SignInErrorResponse? get errorModel => _errorModel;
 
   UserDetailResponse? _currentUser;
+
   UserDetailResponse? get userDetailResponse => _currentUser;
+
+  PicsArtSuccessResponse? _removeBackgroundResponse;
+
+  PicsArtSuccessResponse? get removeBg => _removeBackgroundResponse;
 
   late BuildContext _context;
 
+  bool _isLoading = false;
+
+  bool get isLoading => _isLoading;
+
+  bool isEdited = false;
+
+  String? anotherPath;
+
+  String? userId;
+  String? userToken;
   dynamic validateUser;
 
-  void init(BuildContext context){
-    _context = context;
-    userData();
+  void init() async{
+    userId = await _keyValueStorageService.getAuthID();
+    userToken =
+    await _keyValueStorageService.getAuthToken();
+
+    savedImages();
+  }
+
+  Future<PicsArtSuccessResponse?> bgRemove(String filePath,
+      bool? filterType) async {
+
+
+    var backgroundTextureField = BackgroundTextureField(
+        format: "JPG",
+        height: "1024",
+        offsetX: "0",
+        offsetY: "0",
+        pattern: "tile",
+        rotate: "0",
+        scale: "1",
+        width: "1024"
+    ).toJson();
+
+    var backgroundRemoveField = BackgroundRemoveField(
+        scale: "fit",
+        format: "jpg",
+        bgBlur: "0",
+        outputType: "cutout"
+    ).toJson();
+
+    var backgroundStyleTransferField = BackgroundStyleTransferField(
+        format: "jpg",
+        level: "l4"
+    ).toJson();
+
+    var data = filePath;
+    toggleLoading();
+    _removeBackgroundResponse = await _picsEditRepository.editPics(
+        field: filterType == null ? backgroundRemoveField : filterType
+            ? backgroundStyleTransferField
+            : backgroundTextureField,
+        data:filterType ==false ? anotherPath! : filePath,
+        data1:filterType == false ? filePath : null,
+        filerType: filterType);
+    toggleLoading();
+    isEdited = false;
+    notifyListeners();
+    debugPrint("final output image ${_removeBackgroundResponse?.data?.url
+        .toString()}");
+    return _removeBackgroundResponse;
   }
 
 
-  Future<bool> userData() async {
-    final data = UserDetailModel(
-      idToken: "eyJhbGciOiJSUzI1NiIsImtpZCI6InRCME0yQSJ9.eyJpc3MiOiJodHRwczovL2lkZW50aXR5dG9vbGtpdC5nb29nbGUuY29tLyIsImF1ZCI6Im1vb25saWdodC0yNCIsImlhdCI6MTY5MDkwMzYwNiwiZXhwIjoxNjkyMTEzMjA2LCJ1c2VyX2lkIjoiUFdxQXUycGlvUlhuRmdUYW92OU00R2VISUkxMyIsImVtYWlsIjoidXNlckBleGFtcGxlLmNvbSIsInNpZ25faW5fcHJvdmlkZXIiOiJwYXNzd29yZCIsInZlcmlmaWVkIjpmYWxzZX0.P7xIrJ-2CK72VeVCOoyJNGWBuzgaKUIe9AbA6Brqzq_KYa9VCEEs4Yb2jf0NyMMR-qWGGtUtHbvRHz8aKkpQmmg_DPcUj8k5o45_3L3IHjEdxEFgyvzGot5DmUPti17g2248d-MTfRlpoXo9QMysDa6RgMaJNKzWqhzvvY23dUBk3kOdkQVolqYzCwlhRVwwLSvvbSZlttH-ycnOmSrE4Zt8yWsgHRR1hTgGyz6wcUdauLVKG-PQJT-CLFkpsTN6QUFZZMsA-vB67HJmjthuBh6zJCTOvK5zBSeM5exabPGiiSfMGK1GT8OI--3Qs3umwHAWOck_HCfO1PvChYdiBw"
-    );
-    _currentUser = null;
-    try {
-      validateUser = await _authRepository.sendUserData(
-          data: data.toJson(),
-          context: _context);
-      validateUser.fold((l) {
-        _currentUser = l;
-      }, (r) {
-        _errorModel = r;
-      });
-    } catch (e) {
-      debugPrint(e.toString());
-    }
-    if (_currentUser?.users?[0].statusCode == 200) {
-      _keyValueStorageService.setAuthState();
-      debugPrint("Email ${_currentUser?.users?[0].statusCode}");
-      return true;
-    } else {
-      return false;
-    }
+  Future<void>savedImages() async {
+    final url = Uri.parse(
+        'https://moonlight-24-default-rtdb.firebaseio.com/$userId.json?auth=$userToken');
+    final response = await http.get(url);
+    final List<SavedImagesResponse> savedImages = [];
+    final extractedData = json.decode(response.body) as Map<String, dynamic>;
+    print(extractedData);
+    extractedData.forEach((userId, images) {
+      if (extractedData == null) {
+        return;
+      }
+      savedImages.add(SavedImagesResponse(
+          id: userId,
+          images: images['images']
+      ));
+    });
+    images = savedImages;
+    notifyListeners();
   }
 
+  void toggleLoading() {
+    _isLoading = !_isLoading;
+    notifyListeners();
+  }
 }
