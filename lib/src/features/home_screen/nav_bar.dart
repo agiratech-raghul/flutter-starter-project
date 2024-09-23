@@ -15,7 +15,7 @@ class NavDrawer extends StatelessWidget {
             decoration: BoxDecoration(
                 color:CommonColor.logoCommonDarkColor,
                ),
-            child: Text(
+            child: const Text(
               'Side menu',
               style: TextStyle(color: Colors.white, fontSize: 25),
             ),

@@ -45,7 +45,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
         },
       ),
       appBar: AppBar(
-        title: Text('Moon Light'),
+        title: const Text('Moon Light'),
       ),
       body: ListWheelScrollView(itemExtent: 20, children: const [
 

@@ -34,6 +34,9 @@ dependencies:
   cloud_firestore:
   dartz:
 
+dependency_overrides:
+    win32: ^5.5.4
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

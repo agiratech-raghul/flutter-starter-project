@@ -17,10 +17,7 @@ import 'package:flutter/foundation.dart'
 class DefaultFirebaseOptions {
   static FirebaseOptions get currentPlatform {
     if (kIsWeb) {
-      throw UnsupportedError(
-        'DefaultFirebaseOptions have not been configured for web - '
-        'you can reconfigure this by running the FlutterFire CLI again.',
-      );
+      return web;
     }
     switch (defaultTargetPlatform) {
       case TargetPlatform.android:
@@ -54,6 +51,7 @@ class DefaultFirebaseOptions {
     appId: '1:498917603695:android:ea983c490fa0456b05909a',
     messagingSenderId: '498917603695',
     projectId: 'moonlight-24',
+    databaseURL: 'https://moonlight-24-default-rtdb.firebaseio.com',
     storageBucket: 'moonlight-24.appspot.com',
   );
 
@@ -62,8 +60,21 @@ class DefaultFirebaseOptions {
     appId: '1:498917603695:ios:01514c8b12796aa205909a',
     messagingSenderId: '498917603695',
     projectId: 'moonlight-24',
+    databaseURL: 'https://moonlight-24-default-rtdb.firebaseio.com',
     storageBucket: 'moonlight-24.appspot.com',
     iosClientId: '498917603695-t0tq7idhk7rtl4dqqce0tgits7rh5agi.apps.googleusercontent.com',
     iosBundleId: 'com.example.flutterStarterProject',
   );
+
+  static const FirebaseOptions web = FirebaseOptions(
+    apiKey: 'AIzaSyBrLKqUCaeemSAotNHB82a6IfaQ_T4DrUM',
+    appId: '1:498917603695:web:fbc643c062b2ad4d05909a',
+    messagingSenderId: '498917603695',
+    projectId: 'moonlight-24',
+    authDomain: 'moonlight-24.firebaseapp.com',
+    databaseURL: 'https://moonlight-24-default-rtdb.firebaseio.com',
+    storageBucket: 'moonlight-24.appspot.com',
+    measurementId: 'G-5RPBTM8G31',
+  );
+
 }

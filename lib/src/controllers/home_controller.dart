@@ -9,10 +9,10 @@ class HomeController with ChangeNotifier{
   final _keyValueStorageService=KeyValueStorageService();
   KeyValueStorageService? get keyValueStorageService => _keyValueStorageService;
 
-  late BuildContext _context;
+  late BuildContext cxt;
 
   void init(BuildContext context){
-    _context = context;
+    cxt = context;
   }
 
 }

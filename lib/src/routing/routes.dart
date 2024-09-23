@@ -8,7 +8,7 @@ import '../features/splash/screen/splash_screen.dart';
 
 class RouteManager {
   MaterialPageRoute<dynamic> route(RouteSettings settings) {
-    dynamic data = settings.arguments != null ? settings.arguments ?? {} : {};
+    // dynamic data = settings.arguments != null ? settings.arguments ?? {} : {};
 
     switch (settings.name) {
       case RouteConstants.splashScreen:
